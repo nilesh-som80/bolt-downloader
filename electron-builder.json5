@@ -18,16 +18,9 @@
           "x64",
           "arm64"
         ]
-      },
-      {
-        "target": "zip",
-        "arch": [
-          "x64",
-          "arm64"
-        ]
       }
     ],
-    "artifactName": "${productName} ${version}-${arch}.${ext}"
+    "artifactName": "Bolt-Downloader-${version}-${arch}.${ext}"
   },
   "win": {
     "target": [
