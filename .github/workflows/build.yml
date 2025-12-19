@@ -1,0 +1,72 @@
+name: Build & Release
+
+on:
+  push:
+    branches:
+      - main
+      - canary
+
+jobs:
+  build:
+    name: Build for ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+
+      # Check Type Safety (Optional but good)
+      - name: Type Check
+        run: npx tsc --noEmit
+
+      # --- MACOS BUILD ---
+      - name: Build macOS (Universal + x64)
+        if: matrix.os == 'macos-latest'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npm run build:mac
+
+      # --- WINDOWS BUILD ---
+      - name: Build Windows
+        if: matrix.os == 'windows-latest'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npm run build:win
+
+      # --- LINUX BUILD ---
+      - name: Build Linux
+        if: matrix.os == 'ubuntu-latest'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npm run build:linux
+
+      # --- UPLOAD ARTIFACTS TO RELEASE ---
+      # This step uses softprops/action-gh-release to upload the files generated in 'release/0.1.0/'
+      # to the GitHub Release associated with the tag. 
+      # Since we are pushing to branches, we need to create a release explicitly or use electron-builder's publish logic.
+      # For simplicity with electron-builder, we usually rely on 'publish: always' in package.json
+      # But here is a manual upload strategy which is often more reliable for beginners.
+
+      - name: Release to GitHub
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            release/*/*.exe
+            release/*/*.dmg
+            release/*/*.zip
+            release/*/*.AppImage
+            release/*/*.deb
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
