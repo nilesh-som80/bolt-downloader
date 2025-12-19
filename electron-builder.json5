@@ -1,21 +1,33 @@
-// @see - https://www.electron.build/configuration/configuration
 {
-  "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
   "appId": "com.nileshsingh.boltdownloader",
-  "asar": true,
   "productName": "Bolt Downloader",
+  "asar": true,
   "directories": {
     "output": "release/${version}"
   },
   "files": [
     "dist",
-    "dist-electron"
+    "dist-electron",
+    "package.json"
   ],
   "mac": {
     "target": [
-      "dmg"
+      {
+        "target": "dmg",
+        "arch": [
+          "x64",
+          "arm64"
+        ]
+      },
+      {
+        "target": "zip",
+        "arch": [
+          "x64",
+          "arm64"
+        ]
+      }
     ],
-    "artifactName": "${productName}-Mac-${version}-Installer.${ext}"
+    "artifactName": "${productName} ${version}.${ext}"
   },
   "win": {
     "target": [
@@ -24,20 +36,37 @@
         "arch": [
           "x64"
         ]
+      },
+      {
+        "target": "portable",
+        "arch": [
+          "x64"
+        ]
       }
     ],
-    "artifactName": "${productName}-Windows-${version}-Setup.${ext}"
-  },
-  "nsis": {
-    "oneClick": false,
-    "perMachine": false,
-    "allowToChangeInstallationDirectory": true,
-    "deleteAppDataOnUninstall": false
+    "artifactName": "${productName} ${version}.${ext}"
   },
   "linux": {
     "target": [
-      "AppImage"
+      {
+        "target": "AppImage",
+        "arch": [
+          "x64"
+        ]
+      },
+      {
+        "target": "deb",
+        "arch": [
+          "x64"
+        ]
+      }
     ],
-    "artifactName": "${productName}-Linux-${version}.${ext}"
+    "maintainer": "Nilesh Singh <nilesh@example.com>",
+    "artifactName": "${productName} ${version}.${ext}",
+    "category": "Utility"
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true
   }
 }
