@@ -21,22 +21,6 @@
 *   **TailwindCSS**: Utilitarian styling.
 *   **Better-SQLite3**: Persistent download history.
 
-## 🎨 Design & Logo Concepts (For Nano Banana)
-
-Bolt Downloader is all about **Speed**, **Energy**, and **Simplicity**.
-
-*   **Name**: Bolt Downloader
-*   **Short Name**: Bolt
-*   **Keywords**: Lightning, Electric, Fast, Minimal, Blue/Purple Gradient.
-*   **Color Palette**:
-    *   Primary: Electric Blue (`#3B82F6`)
-    *   Secondary: Purple/Violet (`#8B5CF6`)
-    *   Background: Deep Dark (`#0F172A`)
-*   **Logo Ideas**:
-    *   A stylized lightning bolt.
-    *   A download arrow merging with a bolt.
-    *   Simple, geometric shapes. Avoid clutter.
-    *   Should look good as a macOS App Icon (squircle) and Windows Taskbar icon.
 
 ## 📦 Build & Run
 
