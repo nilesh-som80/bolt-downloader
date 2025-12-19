@@ -1,5 +1,7 @@
 # Bolt Downloader ⚡️
 
+![Downloads](https://img.shields.io/github/downloads/nileshsingh/bolt-downloader/total?style=for-the-badge&color=blue&label=Total%20Downloads)
+
 **Bolt Downloader** is a high-performance, cross-platform download manager built with Electron, React, and TypeScript. It features a modern, clean UI and utilizes advanced chunking algorithms to accelerate downloads up to 800% faster (reaching speeds of 30-35 MB/s on standard connections).
 
 ## 🚀 Features
