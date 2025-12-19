@@ -41,17 +41,23 @@ jobs:
       # --- MACOS BUILD ---
       - name: Build macOS (Universal + x64)
         if: matrix.os == 'macos-latest'
-        run: npm run build:mac
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run build:mac -- -c.publish=never
 
       # --- WINDOWS BUILD ---
       - name: Build Windows
         if: matrix.os == 'windows-latest'
-        run: npm run build:win
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run build:win -- -c.publish=never
 
       # --- LINUX BUILD ---
       - name: Build Linux
         if: matrix.os == 'ubuntu-latest'
-        run: npm run build:linux
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run build:linux -- -c.publish=never
 
       # --- UPLOAD ARTIFACTS TO RELEASE ---
       
@@ -70,7 +76,7 @@ jobs:
             release/*/*.AppImage
             release/*/*.deb
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # 2. Stable Release - Triggered on tags 'v*'
       - name: Create Stable Release
@@ -84,4 +90,4 @@ jobs:
             release/*/*.AppImage
             release/*/*.deb
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
