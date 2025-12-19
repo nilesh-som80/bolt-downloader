@@ -15,17 +15,19 @@
       {
         "target": "dmg",
         "arch": [
-          "universal"
+          "x64",
+          "arm64"
         ]
       },
       {
         "target": "zip",
         "arch": [
-          "universal"
+          "x64",
+          "arm64"
         ]
       }
     ],
-    "artifactName": "${productName} ${version}.${ext}"
+    "artifactName": "${productName} ${version}-${arch}.${ext}"
   },
   "win": {
     "target": [
