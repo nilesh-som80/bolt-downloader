@@ -4,8 +4,6 @@ on:
   push:
     tags:
       - 'v*'
-    branches:
-      - canary
 
 permissions:
   contents: write
@@ -56,23 +54,6 @@ jobs:
         run: npm run build:linux -- -p never
 
       # --- UPLOAD ARTIFACTS TO RELEASE ---
-      
-      # 1. Canary Branch Release (Nightly) - Triggered on push to 'canary' branch
-      - name: Update Canary Nightly Release
-        uses: softprops/action-gh-release@v1
-        if: github.ref == 'refs/heads/canary'
-        with:
-          tag_name: canary
-          name: "Bolt Downloader (Nightly)"
-          prerelease: true
-          files: |
-            release/*/*.exe
-            release/*/*.dmg
-            release/*/*.zip
-            release/*/*.AppImage
-            release/*/*.deb
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # 2. Stable Release - Triggered on tags 'v*' (excluding canary/beta)
       - name: Create Stable Release
