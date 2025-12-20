@@ -1,5 +1,9 @@
 # Bolt Downloader ⚡️
 
+![Downloads](https://img.shields.io/github/downloads/nilesh-som80/bolt-downloader/total?style=for-the-badge&color=blue&label=Total%20Downloads) ![Version](https://img.shields.io/github/v/release/nilesh-som80/bolt-downloader?style=for-the-badge&label=Latest%20Version&color=purple)
+
+[**Download Latest Release**](https://github.com/nilesh-som80/bolt-downloader/releases/latest)
+
 **Bolt Downloader** is a high-performance, cross-platform download manager built with Electron, React, and TypeScript. It features a modern, clean UI and utilizes advanced chunking algorithms to accelerate downloads up to 800% faster (reaching speeds of 30-35 MB/s on standard connections).
 
 ## 🚀 Features
@@ -19,22 +23,6 @@
 *   **TailwindCSS**: Utilitarian styling.
 *   **Better-SQLite3**: Persistent download history.
 
-## 🎨 Design & Logo Concepts (For Nano Banana)
-
-Bolt Downloader is all about **Speed**, **Energy**, and **Simplicity**.
-
-*   **Name**: Bolt Downloader
-*   **Short Name**: Bolt
-*   **Keywords**: Lightning, Electric, Fast, Minimal, Blue/Purple Gradient.
-*   **Color Palette**:
-    *   Primary: Electric Blue (`#3B82F6`)
-    *   Secondary: Purple/Violet (`#8B5CF6`)
-    *   Background: Deep Dark (`#0F172A`)
-*   **Logo Ideas**:
-    *   A stylized lightning bolt.
-    *   A download arrow merging with a bolt.
-    *   Simple, geometric shapes. Avoid clutter.
-    *   Should look good as a macOS App Icon (squircle) and Windows Taskbar icon.
 
 ## 📦 Build & Run
 

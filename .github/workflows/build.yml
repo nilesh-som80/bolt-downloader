@@ -54,7 +54,7 @@ jobs:
         run: npm run build:linux -- -p never
 
       # --- UPLOAD ARTIFACTS TO RELEASE ---
-
+      
       # 2. Stable Release - Triggered on tags 'v*' (excluding canary/beta)
       - name: Create Stable Release
         uses: softprops/action-gh-release@v1
