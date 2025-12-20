@@ -46,7 +46,6 @@
       }
     ],
     "artifactName": "${productName} ${version}.${ext}",
-    "certificateSubjectName": "Bolt Downloader",
     "verifyUpdateCodeSignature": false
   },
   "linux": {
