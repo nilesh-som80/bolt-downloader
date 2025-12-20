@@ -2,9 +2,13 @@ name: Build & Release
 
 on:
   push:
+    tags:
+      - 'v*'
     branches:
-      - main
       - canary
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -21,12 +25,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
 
       - name: Install Dependencies
         run: npm install
 
-      # Check Type Safety (Optional but good)
+      # Check Type Safety
       - name: Type Check
         run: npx tsc --noEmit
 
@@ -34,33 +38,46 @@ jobs:
       - name: Build macOS (Universal + x64)
         if: matrix.os == 'macos-latest'
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: npm run build:mac
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run build:mac -- -p never
 
       # --- WINDOWS BUILD ---
       - name: Build Windows
         if: matrix.os == 'windows-latest'
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: npm run build:win
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run build:win -- -p never
 
       # --- LINUX BUILD ---
       - name: Build Linux
         if: matrix.os == 'ubuntu-latest'
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: npm run build:linux
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run build:linux -- -p never
 
       # --- UPLOAD ARTIFACTS TO RELEASE ---
-      # This step uses softprops/action-gh-release to upload the files generated in 'release/0.1.0/'
-      # to the GitHub Release associated with the tag. 
-      # Since we are pushing to branches, we need to create a release explicitly or use electron-builder's publish logic.
-      # For simplicity with electron-builder, we usually rely on 'publish: always' in package.json
-      # But here is a manual upload strategy which is often more reliable for beginners.
-
-      - name: Release to GitHub
+      
+      # 1. Canary Branch Release (Nightly) - Triggered on push to 'canary' branch
+      - name: Update Canary Nightly Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+        if: github.ref == 'refs/heads/canary'
+        with:
+          tag_name: canary
+          name: "Bolt Downloader (Nightly)"
+          prerelease: true
+          files: |
+            release/*/*.exe
+            release/*/*.dmg
+            release/*/*.zip
+            release/*/*.AppImage
+            release/*/*.deb
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 2. Stable Release - Triggered on tags 'v*' (excluding canary/beta)
+      - name: Create Stable Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref, 'canary') && !contains(github.ref, 'beta')
         with:
           files: |
             release/*/*.exe
@@ -69,4 +86,19 @@ jobs:
             release/*/*.AppImage
             release/*/*.deb
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 3. Tagged Pre-Release (Canary/Beta) - Triggered on tags 'v*canary*' or 'v*beta*'
+      - name: Create Tagged Pre-Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/v') && (contains(github.ref, 'canary') || contains(github.ref, 'beta'))
+        with:
+          prerelease: true
+          files: |
+            release/*/*.exe
+            release/*/*.dmg
+            release/*/*.zip
+            release/*/*.AppImage
+            release/*/*.deb
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
