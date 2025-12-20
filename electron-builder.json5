@@ -21,14 +21,7 @@
       }
     ],
     "artifactName": "Bolt-Downloader-${version}-${arch}.${ext}",
-    "identity": null,
-    "hardenedRuntime": true,
-    "gatekeeperAssess": false,
-    "entitlements": "build/entitlements.mac.plist",
-    "entitlementsInherit": "build/entitlements.mac.plist",
-    "notarize": {
-      "teamId": "${env.APPLE_TEAM_ID}"
-    }
+    "identity": null
   },
   "win": {
     "target": [
