@@ -5,13 +5,13 @@ import { initializeAnalytics, isSupported, logEvent as firebaseLogEvent, Analyti
 
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyB-DvvsX1hcamnonJfXkBnpJzB90ryj0jY",
-    authDomain: "bolt-downloader.firebaseapp.com",
-    projectId: "bolt-downloader",
-    storageBucket: "bolt-downloader.firebasestorage.app",
-    messagingSenderId: "135427754994",
-    appId: "1:135427754994:web:acc7cdb1dc4363af39f96b",
-    measurementId: "G-2YLK6BFDS9"
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
