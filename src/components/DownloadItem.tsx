@@ -83,18 +83,19 @@ const DownloadItem: React.FC<DownloadItemProps> = ({ item, onPause, onResume, on
 
                 <div className="flex gap-2 mt-2">
                     {item.status === 'DOWNLOADING' && (
-                        <button onClick={() => onPause(item.id)} className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-text-secondary hover:text-white" title="Pause">⏸</button>
+                        <button onClick={(e) => { e.stopPropagation(); onPause(item.id); }} className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-text-secondary hover:text-white" title="Pause">⏸</button>
                     )}
                     {(item.status === 'PAUSED' || item.status === 'ERROR' || item.status === 'WAITING_FOR_SPACE') && (
-                        <button onClick={() => onResume(item.id)} className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-text-secondary hover:text-white" title="Resume">▶</button>
+                        <button onClick={(e) => { e.stopPropagation(); onResume(item.id); }} className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-text-secondary hover:text-white" title="Resume">▶</button>
                     )}
                     {item.status === 'COMPLETED' && (
-                        <button onClick={() => onOpenFolder(item.id)} className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-text-secondary hover:text-white" title="Open Folder">📂</button>
+                        <button onClick={(e) => { e.stopPropagation(); onOpenFolder(item.id); }} className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-text-secondary hover:text-white" title="Open Folder">📂</button>
                     )}
                     {(item.status === 'DOWNLOADING' || item.status === 'PAUSED') && (
-                        <button onClick={() => onOpenChunkDetails(item.id)} className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-text-secondary hover:text-white" title="View Chunks">📊</button>
+                        <button onClick={(e) => { e.stopPropagation(); onOpenChunkDetails(item.id); }} className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-text-secondary hover:text-white" title="View Chunks">📊</button>
                     )}
                 </div>
+
             </div>
 
             {/* Context Menu */}

@@ -1,8 +1,39 @@
 import { useDownloads } from '../../hooks/useDownloads';
 import DownloadItem from '../../components/DownloadItem';
 
+import { useEffect } from 'react';
+import { logEvent, logError } from '../../firebase';
+
 function Dashboard() {
   const { downloads, pause, resume, openAddWindow, openSettings, openFolder, openChunkDetails, deleteDownload, clearAll } = useDownloads();
+
+  useEffect(() => {
+    // 1. Track Installs (First Launch)
+    const isInstalled = localStorage.getItem('app_installed');
+    if (!isInstalled) {
+      logEvent('app_install');
+      localStorage.setItem('app_installed', 'true');
+    }
+
+    // 2. Global Error Tracking (for UI crashes)
+    const handleError = (event: ErrorEvent) => {
+      logError(event.error || event.message);
+    };
+
+    // Check for unhandled promise rejections too
+    const handleRejection = (event: PromiseRejectionEvent) => {
+      logError(event.reason);
+    };
+
+    window.addEventListener('error', handleError);
+    window.addEventListener('unhandledrejection', handleRejection);
+
+    return () => {
+      window.removeEventListener('error', handleError);
+      window.removeEventListener('unhandledrejection', handleRejection);
+    };
+  }, []);
+
 
   return (
     <div className="flex flex-col h-screen bg-bg text-text-primary">

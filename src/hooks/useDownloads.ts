@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { logEvent } from '../firebase';
+
 
 export function useDownloads() {
     const [downloads, setDownloads] = useState<DownloadRecord[]>([]);
@@ -12,13 +14,31 @@ export function useDownloads() {
             setDownloads(prev => {
                 const index = prev.findIndex(d => d.id === updatedRecord.id);
                 if (index === -1) {
+                    if (updatedRecord.status !== 'COMPLETED') { // Avoid double logging if it starts as completed? Unlikely but safe.
+                        logEvent('download_started', {
+                            file_name: updatedRecord.filename,
+                            file_type: updatedRecord.filename.split('.').pop()
+                        });
+                    }
                     return [updatedRecord, ...prev];
                 }
+
+                // Track completion
+                const oldRecord = prev[index];
+                if (oldRecord.status !== 'COMPLETED' && updatedRecord.status === 'COMPLETED') {
+                    logEvent('download_completed', {
+                        file_name: updatedRecord.filename,
+                        size: updatedRecord.totalSize,
+                        duration: (new Date(updatedRecord.created_at).getTime() - Date.now()) * -1 // rough estimate or just log timestamp
+                    });
+                }
+
                 const newArr = [...prev];
                 newArr[index] = updatedRecord;
                 return newArr;
             });
         };
+
 
         const handleRefresh = (_event: unknown, allDownloads: DownloadRecord[]) => {
             setDownloads(allDownloads);

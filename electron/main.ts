@@ -55,7 +55,7 @@ function createMainWindow() {
 function createAddDownloadWindow(prefilledUrl?: string) {
   const addWin = new BrowserWindow({
     width: 500,
-    height: 400,
+    height: 500,
     title: 'Add Download - Bolt Downloader',
     autoHideMenuBar: true,
     webPreferences: {
