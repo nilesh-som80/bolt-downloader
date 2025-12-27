@@ -21,7 +21,7 @@
       }
     ],
     "artifactName": "Bolt-Downloader-${version}-${arch}.${ext}",
-    "identity": null
+    "identity": "-"
   },
   "win": {
     "target": [
